@@ -6,4 +6,4 @@ Resources:
         TaskDefinition: <TASK_DEFINITION>
         LoadBalancerInfo:
           ContainerName: exercise-manage-app-frontend
-          ContainerPort: 80
+          ContainerPort: 3000
