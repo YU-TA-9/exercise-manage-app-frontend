@@ -1,0 +1,33 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      docker: 19
+    commands:
+      - echo Entered the install phase...
+      - npm -v
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - REPOSITORY_URI=556545098389.dkr.ecr.ap-northeast-1.amazonaws.com
+      - REPOSITORY_NAME=exercise-manage-app-frontend
+      - aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${REPOSITORY_URI}
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=${COMMIT_HASH:=latest}
+  build:
+    commands:
+      - echo Entered build phase...
+      - docker build -t ${REPOSITORY_NAME} .
+      - docker tag ${REPOSITORY_NAME}:latest ${REPOSITORY_URI}/${REPOSITORY_NAME}:${IMAGE_TAG}
+  post_build:
+    commands:
+      - echo Entered the post_build phase...
+      - docker push ${REPOSITORY_URI}/${REPOSITORY_NAME}:${IMAGE_TAG}
+      - echo Writing image definitions file...
+      - printf '[{"name":"exercise-manage-app-frontend","imageUri":"%s"}]' ${REPOSITORY_URI}/${REPOSITORY_NAME}:${IMAGE_TAG} > imagedefinitions.json
+artifacts:
+  files:
+    - imagedefinitions.json
+    - appspec.yaml
+    - taskdef.json
