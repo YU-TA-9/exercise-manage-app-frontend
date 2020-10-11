@@ -1,3 +1,23 @@
+# exercise-manage-app-frontend
+
+**「作業管理アプリ」** のフロントエンドソースのレポジトリ
+
+## 概要
+
+FW：Next.js
+
+* Version
+
+|Library|Version|
+|---|---|
+|Next|9.5.3|
+|react|16.13.1|
+|react-dom|16.13.1
+
+continue...
+
+***
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
