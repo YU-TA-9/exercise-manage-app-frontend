@@ -222,10 +222,10 @@ const IndexPage = (props: IProps) => {
   );
 };
 
-export const getServerSideProps = async () => {
+IndexPage.getInitialProps = async () => {
   const today: string = moment().format('YYYY/M/D');
   return {
-    props: { initialDate: today },
+    initialDate: today,
   };
 };
 
