@@ -32,11 +32,9 @@ const UpdateLearning = (props: IProps) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .put(process.env.HOST_URL + '/api/learning/content/' + contentId, payload)
-      .then((res) => {
-        Router.push('/learning/content/list');
-      });
+    axios.put('/api/learning/content/' + contentId, payload).then((res) => {
+      Router.push('/learning/content/list');
+    });
   };
 
   return (
@@ -112,9 +110,7 @@ const UpdateLearning = (props: IProps) => {
 };
 
 UpdateLearning.getInitialProps = async ({ query }) => {
-  const res = await axios.get(
-    process.env.HOST_URL + '/api/learning/content/' + query.id
-  );
+  const res = await axios.get('/api/learning/content/' + query.id);
   console.log(res.data);
   return { id: query.id, data: res.data };
 };

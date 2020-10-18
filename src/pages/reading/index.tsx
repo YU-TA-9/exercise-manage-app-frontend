@@ -13,7 +13,7 @@ const Reading = (props: IProps) => {
       <TimeGraphWithCalendar
         startDate={props.startDate}
         endDate={props.endDate}
-        getGraphUrl={process.env.HOST_URL + '/api/reading/time'}
+        getGraphUrl={'/api/reading/time'}
         heading='読書時間'
       />
     </Layout>

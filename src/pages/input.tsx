@@ -88,13 +88,11 @@ const InputPage = (props: IProps) => {
 
   //カレンダーが切り替わったときの処理
   useEffect(() => {
-    axios
-      .get(process.env.HOST_URL + '/api/all/time?date=' + calendar)
-      .then((res) => {
-        console.log(res.data);
-        setList(res.data);
-        setPayload([]);
-      });
+    axios.get('/api/all/time?date=' + calendar).then((res) => {
+      console.log(res.data);
+      setList(res.data);
+      setPayload([]);
+    });
   }, [calendar]);
 
   // ペイロードが変更されたら
@@ -223,7 +221,7 @@ const InputPage = (props: IProps) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(payload);
-    axios.post(process.env.HOST_URL + '/api/all/time', payload).then((res) => {
+    axios.post('/api/all/time', payload).then((res) => {
       Router.push('/');
     });
   };
@@ -399,7 +397,7 @@ const InputPage = (props: IProps) => {
 };
 InputPage.getInitialProps = async () => {
   const today: string = moment().format('YYYY/M/D');
-  const res = await axios.get(process.env.HOST_URL + '/api/all/content/select');
+  const res = await axios.get('/api/all/content/select');
   console.log(res.data);
   return {
     value: today,

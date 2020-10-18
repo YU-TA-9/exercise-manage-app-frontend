@@ -35,11 +35,9 @@ const UpdateReading = (props: IProps) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .put(process.env.HOST_URL + '/api/reading/content/' + contentId, payload)
-      .then((res) => {
-        Router.push('/reading/content/list');
-      });
+    axios.put('/api/reading/content/' + contentId, payload).then((res) => {
+      Router.push('/reading/content/list');
+    });
   };
 
   const handleChangeFile = (e) => {
@@ -57,15 +55,11 @@ const UpdateReading = (props: IProps) => {
     const formData: FormData = new FormData();
     formData.append('image', imagePayload);
     axios
-      .patch(
-        process.env.HOST_URL + '/api/reading/content/image/' + contentId,
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        }
-      )
+      .patch('/api/reading/content/image/' + contentId, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
       .then((res) => {
         Router.push('/reading/content/list');
       });
@@ -190,9 +184,7 @@ const UpdateReading = (props: IProps) => {
 };
 
 UpdateReading.getInitialProps = async ({ query }) => {
-  const res = await axios.get(
-    process.env.HOST_URL + '/api/reading/content/' + query.id
-  );
+  const res = await axios.get('/api/reading/content/' + query.id);
   console.log(res.data);
   return { id: query.id, data: res.data };
 };

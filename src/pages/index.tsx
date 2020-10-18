@@ -48,64 +48,62 @@ const IndexPage = (props: IProps) => {
   const [calendar, setCalendar] = useState<string>(props.initialDate);
 
   useEffect(() => {
-    axios
-      .get(process.env.HOST_URL + '/api/all/time?date=' + calendar)
-      .then((res) => {
-        console.log(res.data);
+    axios.get('/api/all/time?date=' + calendar).then((res) => {
+      console.log(res.data);
 
-        // 合計時間計算
-        const sumLearningTime: number = res.data.learning.reduce(
-          (sum, elem) => sum + elem.time,
-          0
-        );
-        const sumReadingTime: number = res.data.reading.reduce(
-          (sum, elem) => sum + elem.time,
-          0
-        );
-        setSumTime({
-          running: res.data.running,
-          learning: sumLearningTime,
-          reading: sumReadingTime,
-        });
-
-        // グラフデータ更新
-        const radarGraphJson: IRadar[] = [
-          {
-            title: 'ランニング',
-            time: res.data.running,
-          },
-          {
-            title: '学習',
-            time: sumLearningTime,
-          },
-          {
-            title: '読書',
-            time: sumReadingTime,
-          },
-        ];
-
-        const barGraphJson: IBar[] = [];
-        barGraphJson.push({
-          contentTitle: 'ランニング',
-          runningTime: res.data.running,
-        });
-
-        res.data.learning.map((elem) => {
-          barGraphJson.push({
-            contentTitle: elem.contentTitle,
-            learningTime: elem.time,
-          });
-        });
-
-        res.data.reading.map((elem) => {
-          barGraphJson.push({
-            contentTitle: elem.contentTitle,
-            readingTime: elem.time,
-          });
-        });
-
-        setGraph({ radar: radarGraphJson, bar: barGraphJson });
+      // 合計時間計算
+      const sumLearningTime: number = res.data.learning.reduce(
+        (sum, elem) => sum + elem.time,
+        0
+      );
+      const sumReadingTime: number = res.data.reading.reduce(
+        (sum, elem) => sum + elem.time,
+        0
+      );
+      setSumTime({
+        running: res.data.running,
+        learning: sumLearningTime,
+        reading: sumReadingTime,
       });
+
+      // グラフデータ更新
+      const radarGraphJson: IRadar[] = [
+        {
+          title: 'ランニング',
+          time: res.data.running,
+        },
+        {
+          title: '学習',
+          time: sumLearningTime,
+        },
+        {
+          title: '読書',
+          time: sumReadingTime,
+        },
+      ];
+
+      const barGraphJson: IBar[] = [];
+      barGraphJson.push({
+        contentTitle: 'ランニング',
+        runningTime: res.data.running,
+      });
+
+      res.data.learning.map((elem) => {
+        barGraphJson.push({
+          contentTitle: elem.contentTitle,
+          learningTime: elem.time,
+        });
+      });
+
+      res.data.reading.map((elem) => {
+        barGraphJson.push({
+          contentTitle: elem.contentTitle,
+          readingTime: elem.time,
+        });
+      });
+
+      setGraph({ radar: radarGraphJson, bar: barGraphJson });
+    });
   }, [calendar]);
 
   const [sumTime, setSumTime] = useState<IStateSumTime>({
@@ -224,10 +222,10 @@ const IndexPage = (props: IProps) => {
   );
 };
 
-IndexPage.getInitialProps = async () => {
+export const getServerSideProps = async () => {
   const today: string = moment().format('YYYY/M/D');
   return {
-    initialDate: today,
+    props: { initialDate: today },
   };
 };
 

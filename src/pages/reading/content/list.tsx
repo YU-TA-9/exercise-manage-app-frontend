@@ -62,21 +62,17 @@ const List = (props: IProps) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post(process.env.HOST_URL + '/api/reading/content', payload)
-      .then((res) => {
-        setPayload(initialPayload);
-        Router.push('/reading/content/list');
-      });
+    axios.post('/api/reading/content', payload).then((res) => {
+      setPayload(initialPayload);
+      Router.push('/reading/content/list');
+    });
   };
 
   const handleDelete = (id) => {
     handleClose();
-    axios
-      .delete(process.env.HOST_URL + '/api/reading/content/' + id)
-      .then((res) => {
-        Router.push('/reading/content/list');
-      });
+    axios.delete('/api/reading/content/' + id).then((res) => {
+      Router.push('/reading/content/list');
+    });
   };
 
   const [modal, setModal] = useState({
@@ -233,7 +229,7 @@ const List = (props: IProps) => {
 };
 
 List.getInitialProps = async () => {
-  const res = await axios.get(process.env.HOST_URL + '/api/reading/content');
+  const res = await axios.get('/api/reading/content');
   console.log(res.data);
   return { list: res.data };
 };

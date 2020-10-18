@@ -58,21 +58,17 @@ const List = (props: IProps) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post(process.env.HOST_URL + '/api/learning/content', payload)
-      .then((res) => {
-        setPayload(initialPayload);
-        Router.push('/learning/content/list');
-      });
+    axios.post('/api/learning/content', payload).then((res) => {
+      setPayload(initialPayload);
+      Router.push('/learning/content/list');
+    });
   };
 
   const handleDelete = (id) => {
     handleClose();
-    axios
-      .delete(process.env.HOST_URL + '/api/learning/content/' + id)
-      .then((res) => {
-        Router.push('/learning/content/list');
-      });
+    axios.delete('/api/learning/content/' + id).then((res) => {
+      Router.push('/learning/content/list');
+    });
   };
 
   const [payload, setPayload] = useState<ILearningContentPayload>(
@@ -220,7 +216,7 @@ const List = (props: IProps) => {
 };
 
 List.getInitialProps = async () => {
-  const res = await axios.get(process.env.HOST_URL + '/api/learning/content');
+  const res = await axios.get('/api/learning/content');
   console.log(res.data);
   return { list: res.data };
 };
