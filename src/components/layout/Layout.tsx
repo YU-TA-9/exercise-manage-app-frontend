@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import Head from 'next/head';
 import Header from '../organisms/Header';
-import { MDBCol, MDBContainer, MDBRow, MDBFooter } from 'mdbreact';
+import { MDBContainer, MDBFooter } from 'mdbreact';
 
 type Props = {
   children?: ReactNode;

@@ -16,20 +16,18 @@ const MyApp = ({ Component, pageProps }: AppProps, ctx: NextPageContext) => {
   const cookies = parseCookies(ctx);
 
   useEffect(() => {
-    const handleRouteChange = (url) => {
-      console.log('url:' + url);
-      // next push時の遷移検知
+    // 認証機能
+    router.beforePopState(({ url, as, options }) => {
+      // I only want to allow these two routes!
       if (url !== '/login' && url !== '/_error') {
         if (typeof cookies.auth === 'undefined') {
-          console.log('in Next Router');
-          router.push('/login');
+          // Have SSR render bad routes as a 404.
+          window.location.href = '/login';
+          return false;
         }
       }
-    };
-    router.events.on('routeChangeStart', handleRouteChange);
-    return () => {
-      router.events.off('routeChangeStart', handleRouteChange);
-    };
+      return true;
+    });
   }, []);
 
   const component =

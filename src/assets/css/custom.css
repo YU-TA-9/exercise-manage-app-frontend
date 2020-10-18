@@ -1,22 +1,11 @@
-.sideBar {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 260px;
-  display: block;
-  z-index: 1;
-  color: #fff;
-  font-weight: 200;
-  background: green;
-  z-index: 1;
-}
-
-.main-content {
-  background: rgba(203, 203, 210, 0.15);
+.login-container {
   position: relative;
-  float: right;
-  width: calc(100% - 260px);
+  width: 300px;
+  margin: 80px auto;
+  padding: 20px 40px 40px;
+  text-align: center;
+  background: #fff;
+  border: 1px solid #ccc;
 }
 
 .button-running {
